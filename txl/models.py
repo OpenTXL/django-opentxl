@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 
 
 class Subject(models.Model):
@@ -41,9 +41,15 @@ class Collection(Subject):
 class Item(Subject):
     name = models.CharField(max_length=30, null=True, blank=True)
     collection = models.ForeignKey(Collection)
+    geometry = models.MultiPolygonField(null=True, blank=True)
+
+    objects = models.GeoManager()
 
 
 class Situation(Subject):
     begin = models.DateField(null=True, blank=True)
     end = models.DateField(null=True, blank=True)
     item = models.ForeignKey(Item)
+    geometry = models.MultiPolygonField(null=True, blank=True)
+
+    objects = models.GeoManager()
