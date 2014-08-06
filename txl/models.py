@@ -10,12 +10,18 @@ class Collection(Subject):
     parent = models.ForeignKey('Collection', null=True, blank=True)
 
     def __unicode__(self):
-        return self.name
+        if self.parent:
+            return self.parent.name + " | " + self.name
+        else:
+            return self.name
 
 
 class Item(Subject):
     name = models.CharField(max_length=30)
     collection = models.ForeignKey(Collection)
+
+    def __unicode__(self):
+        return self.name + " in " + self.collection.name
 
     class Meta:
         unique_together = (('name', 'collection'),)
